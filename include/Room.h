@@ -28,5 +28,6 @@ class Room : public GameObject {
   vector<Item*> getItems();
   vector<Creature*> getCreatures();
   vector<Trigger*> getTriggers();
+  void putItem(GameObject* item);
 };
 #endif

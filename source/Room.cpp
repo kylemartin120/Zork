@@ -49,3 +49,7 @@ vector<Creature*> Room::getCreatures() {
 vector<Trigger*> Room::getTriggers() {
   return triggers;
 }
+
+bool Room:putItem(GameObject* item) {
+  item->push_back(item);
+}
