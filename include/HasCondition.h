@@ -12,10 +12,10 @@ using namespace std;
 class HasCondition : public Condition {
  private:
   bool has;
-  GameObject * owner;
+  GameObject* owner;
 
  public:
-  HasCondition(bool h, GameObject * obj, GameObject * own);
+  HasCondition(bool h, GameObject* obj, GameObject* own);
   virtual ~HasCondition();
   bool isTrue();
 };

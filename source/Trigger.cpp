@@ -3,10 +3,11 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
-Trigger::Trigger(string comms[], bool p, Condition * conds[]) {
+Trigger::Trigger(vector<string> comms, bool p, vector<Condition*> conds) {
   commands = comms;
   permanent = p;
   used = false;
@@ -19,15 +20,16 @@ bool Trigger::isTriggered() {
   if (used && !permanent) {
     return false;
   }
-  for (unsigned int i = 0; i < sizeof(conds) / sizeof(conds[0]); i++) {
-    if (!conds.isTrue()) {
+  for (unsigned int i = 0; i < conditions.size(); i++) {
+    if (!conditions[i]->isTrue()) {
       return false;
     }
   }
 
+  used = true;
   return true;
 }
 
-void Trigger::getCommands() {
+vector<string> Trigger::getCommands() {
   return commands;
 }

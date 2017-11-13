@@ -6,7 +6,7 @@
 
 using namespace std;
 
-Condition::Condition(GameObject * obj) {
+Condition::Condition(GameObject* obj) {
   object = obj;
 }
 

@@ -5,20 +5,23 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
+class Condition;
+
 class Trigger {
  private:
-  string commands[];
+  vector<string> commands;
   bool permanent;
   bool used; // only matters if permanent is false
-  Condition * conditions[];
+  vector<Condition*> conditions;
 
  public:
-  Trigger(string comms[], bool p, Condition * conds[]);
+  Trigger(vector<string> comms, bool p, vector<Condition*> conds);
   virtual ~Trigger();
   bool isTriggered();
-  string[] getCommands();
-}
+  vector<string> getCommands();
+};
 #endif

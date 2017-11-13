@@ -3,10 +3,11 @@
 
 #include <string>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
-GameObject::GameObject(string n, string d, string s, Trigger * t[]) {
+GameObject::GameObject(string n, string d, string s, vector<Trigger*> t) {
   name = n;
   description = d;
   status = s;
@@ -27,23 +28,22 @@ string GameObject::getStatus() {
   return status;
 }
 
-bool testTrigs() {
+bool GameObject::testTrigs() {
   if (sizeof(trigs) == 0) {
     return false;
   }
 
   bool activate = false;
   
-  for (unsigned int i = 0; i < sizeof(trigs) / sizeof(trigs[0]); i++) {
-    if (trigs[i].isTriggered()) {
+  for (unsigned int i = 0; i < trigs.size(); i++) {
+    if (trigs[i]->isTriggered()) {
       activate = true;
-      trigs[i].act();
     }
   }
 
   return activate;
 }
   
-bool contains(GameObject * obj) {
+bool GameObject::contains(GameObject* obj) {
   return false; // a generic GameObject cannot contain another GameObject
 }

@@ -8,12 +8,14 @@
 
 using namespace std;
 
+class GameObject; // forward declare
+
 class Condition {
- private:
-  GameObject * object;
-  
+ protected:
+  GameObject* object;
+
  public:
-  Condition(GameObject * obj);
+  Condition(GameObject* obj);
   virtual ~Condition();
   virtual bool isTrue();
 };

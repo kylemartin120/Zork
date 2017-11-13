@@ -14,7 +14,7 @@ class StatusCondition : public Condition {
   string status;
 
  public:
-  StatusCondition(GameObject * obj, String stat);
+  StatusCondition(GameObject* obj, string stat);
   ~StatusCondition();
   bool isTrue();
 };
