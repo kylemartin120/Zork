@@ -7,16 +7,17 @@
 
 using namespace std;
 
-Trigger::Trigger(vector<string> a, vector<string> pr, bool p,
-		 vector<Condition*> c) {
+Trigger::Trigger(vector<string> a, vector<string> pr, vector<string> co,
+		 bool p, vector<Condition*> c) {
   actions = a;
   prints = pr;
+  commands = co;
   permanent = p;
   used = false;
   conditions = c;
 }
 
-Trigger::~Trigger() {}
+Trigger::~Trigger(string curCommand) {}
 
 bool Trigger::isTriggered() {
   if (used && !permanent) {
@@ -27,9 +28,20 @@ bool Trigger::isTriggered() {
       return false;
     }
   }
+  if (commands.size() > 0) {
+    for (unsigned int i = 0; i < commands.size(); i++) {
+      if (curCommand == commands[i]) {
+	  used = true;
+	  return true;
+	  }
+    }
+  }
+  else {
+    used = true;
+    return true;
+  }
 
-  used = true;
-  return true;
+  return false;
 }
 
 vector<string> Trigger::getPrints() {

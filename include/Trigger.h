@@ -15,14 +15,16 @@ class Trigger {
  private:
   vector<string> actions;
   vector<string> prints;
+  vector<string> commands;
   bool permanent;
   bool used; // only matters if permanent is false
   vector<Condition*> conditions;
 
  public:
-  Trigger(vector<string> a, vector<string> ps, bool p, vector<Condition*> c);
+  Trigger(vector<string> a, vector<string> ps, vector<string> co, bool p,
+	  vector<Condition*> c);
   virtual ~Trigger();
-  bool isTriggered();
+  bool isTriggered(string curCommand);
   vector<string> getPrints();
   vector<string> getActions();
 };
