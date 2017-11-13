@@ -9,6 +9,8 @@
 #include <iostream>
 #include <vector>
 
+using namespace std;
+
 class Creature : public GameObject {
  private:
   vector<string> vulnerability;

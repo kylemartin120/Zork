@@ -7,6 +7,8 @@
 #include <iostream>
 #include <vector>
 
+using namespace std;
+
 Creature::Creature(string n, string s, string d, vector<string> v, Attack* a,
 		   vector<Trigger*> t) : GameObject(n, d, s, t) {
   vulnerability = v;

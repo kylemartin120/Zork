@@ -6,6 +6,8 @@
 #include <iostream>
 #include <vector>
 
+using namespace std;
+
 Item::Item(string n, string s, string d, string w, vector<string> on,
 	   vector<Trigger*> t) : GameObject(n, d, s, t) {
   writing = w;

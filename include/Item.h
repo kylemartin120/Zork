@@ -8,6 +8,8 @@
 #include <iostream>
 #include <vector>
 
+using namespace std;
+
 class Item : public GameObject {
  private:
   string writing;

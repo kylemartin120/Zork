@@ -6,6 +6,8 @@
 #include <iostream>
 #include <vector>
 
+using namespace std;
+
 Container::Container(string n, string s, string d, vector<string> a,
 		     vector<GameObject*> i, vector<Trigger*> t) :
   GameObject(n, d, s, t) {

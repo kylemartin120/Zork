@@ -8,6 +8,8 @@
 #include <iostream>
 #include <vector>
 
+using namespace std;
+
 class Container : public GameObject {
  private:
   vector<string> accept;
