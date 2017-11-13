@@ -30,7 +30,7 @@ void Container::open() {
   isOpen = true;
 }
 
-GameObject* getItem(string name) {
+GameObject* Container::getItem(string name) {
   if (isOpen) {
     for (unsigned int i = 0; i < items.size(); i++) {
       if (items[i]->getName() == name) {
@@ -42,7 +42,7 @@ GameObject* getItem(string name) {
   return NULL;
 }
 
-bool putItem(GameObject* item) {
+bool Container::putItem(GameObject* item) {
   if (isOpen) {
     items.push_back(item);
     return true;

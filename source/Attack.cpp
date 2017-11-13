@@ -15,10 +15,10 @@ Attack::Attack(vector<Condition*> c, vector<string> p, vector<string> a) {
 
 Attack::~Attack() {}
 
-vector<string> getPrints() {
+vector<string> Attack::getPrints() {
   return prints;
 }
 
-vector<string> getActions() {
+vector<string> Attack::getActions() {
   return actions;
 }

@@ -20,6 +20,6 @@ void Item::printWriting() {
   cout << writing << endl;
 }
 
-vector<string> getOnCommands() {
+vector<string> Item::getOnCommands() {
   return onCommands;
 }
