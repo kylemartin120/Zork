@@ -20,6 +20,6 @@ class Creature : public GameObject {
   Creature(string n, string s, string d, vector<string> v, Attack* a,
 	   vector<Trigger*> t);
   virtual ~Creature();
-  void attack(GameObject* item);
+  Attack* getAttack(GameObject* item);
 };
 #endif

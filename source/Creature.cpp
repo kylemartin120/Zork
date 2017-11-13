@@ -17,7 +17,7 @@ Creature::Creature(string n, string s, string d, vector<string> v, Attack* a,
 
 Creature::~Creature() {}
 
-Attack* Creature::attack(GameObject* item) {
+Attack* Creature::getAttack(GameObject* item) {
   cout << "You assault the " << name << " with the " << item->getName() << endl;
   for (unsigned int i = 0; i < vulnerability.size(); i++) {
     if (vulnerability[i] == item->getName()) {
