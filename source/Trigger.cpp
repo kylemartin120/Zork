@@ -7,11 +7,13 @@
 
 using namespace std;
 
-Trigger::Trigger(vector<string> comms, bool p, vector<Condition*> conds) {
-  commands = comms;
+Trigger::Trigger(vector<string> a, vector<string> pr, bool p,
+		 vector<Condition*> c) {
+  actions = a;
+  prints = pr;
   permanent = p;
   used = false;
-  conditions = conds;
+  conditions = c;
 }
 
 Trigger::~Trigger() {}
@@ -30,6 +32,10 @@ bool Trigger::isTriggered() {
   return true;
 }
 
-vector<string> Trigger::getCommands() {
-  return commands;
+vector<string> Trigger::getPrints() {
+  return prints;
+}
+
+vector<string> Trigger::getActions() {
+  return actions;
 }
