@@ -11,9 +11,9 @@
 
 using namespace std;
 
-Room::Room(string n, string stat, string t, string d, vector<Border*> b,
+Room::Room(string n, string s, string t, string d, vector<Border*> b,
 	   vector<Item*> i, vector<Creature*> c, vector<Trigger*> trigs) :
-  GameObject(n, stat, d, trigs) {
+  GameObject(n, s, d, trigs) {
   type = t;
   borders = b;
   items = i;

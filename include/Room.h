@@ -20,7 +20,7 @@ class Room : public GameObject {
   vector<Trigger*> triggers;
 
  public:
-  Room(string n, string stat, string t, string d, vector<Border*> b,
+  Room(string n, string s, string t, string d, vector<Border*> b,
        vector<Item*> i, vector<Creature*> c, vector<Trigger*> trigs);
   virtual ~Room();
   string checkBorders(string direction);
