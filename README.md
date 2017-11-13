@@ -23,13 +23,10 @@ put (item) in (container) - moves an item from the player's inventory to the
 			    
 turn on (item) - activates an item, if it is in the player's inventory.
 
-\>attack (creature) with (item) - attemps to attack a creature with an item in
-		   	       	 the player's inventory.
+attack (creature) with (item) - attemps to attack a creature with an item in
+		   	       	the player's inventory.
 
 ##Objects
-
-### Map
-The entire game map. Contains different rooms linked together by their borders.
 
 ### Room
 A specific room. Contains its borders, containers, items, creatures and
