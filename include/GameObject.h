@@ -12,7 +12,7 @@ using namespace std;
 class Trigger;
 
 class GameObject {
- private:
+ protected:
   string name;
   string description;
   string status;
