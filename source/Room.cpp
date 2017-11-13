@@ -1,6 +1,7 @@
 #include "Room.h"
 #include "GameObject.h"
 #include "Border.h"
+#include "Container.h"
 #include "Item.h"
 #include "Creature.h"
 #include "Trigger.h"
@@ -12,12 +13,13 @@
 using namespace std;
 
 Room::Room(string n, string s, string t, string d, vector<Border*> b,
-	   vector<Item*> i, vector<Creature*> c, vector<Trigger*> trigs) :
-  GameObject(n, s, d, trigs) {
+	   vector<Container*> c, vector<Item*> i, vector<Creature*> cr,
+	   vector<Trigger*> trigs) : GameObject(n, s, d, trigs) {
   type = t;
   borders = b;
+  containers = c;
   items = i;
-  creatures = c;
+  creatures = cr;
   triggers = trigs;
 }
 
@@ -50,6 +52,6 @@ vector<Trigger*> Room::getTriggers() {
   return triggers;
 }
 
-bool Room:putItem(GameObject* item) {
-  item->push_back(item);
+void Room::putItem(Item* item) {
+  items.push_back(item);
 }

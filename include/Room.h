@@ -3,6 +3,10 @@
 
 #include "GameObject.h"
 #include "Border.h"
+#include "Container.h"
+#include "Item.h"
+#include "Creature.h"
+#include "Trigger.h"
 
 #include <string>
 #include <iostream>
@@ -21,13 +25,14 @@ class Room : public GameObject {
 
  public:
   Room(string n, string s, string t, string d, vector<Border*> b,
-       vector<Item*> i, vector<Creature*> c, vector<Trigger*> trigs);
+       vector<Container*> c, vector<Item*> i, vector<Creature*> cr,
+       vector<Trigger*> trigs);
   virtual ~Room();
   string checkBorders(string direction);
   vector<Container*> getContainers();
   vector<Item*> getItems();
   vector<Creature*> getCreatures();
   vector<Trigger*> getTriggers();
-  void putItem(GameObject* item);
+  void putItem(Item* item);
 };
 #endif
