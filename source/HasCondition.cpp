@@ -1,23 +1,30 @@
 #include "HasCondition.h"
-#include "GameObject.h"
-
-#include <string>
-#include <iostream>
 
 using namespace std;
 
-HasCondition::HasCondition(bool h, GameObject* obj, GameObject* own) :
+HasCondition::HasCondition(bool h, string obj, string own) :
   Condition(obj) {
   has = h;
   owner = own;
 }
 
+HasCondition::HasCondition(xml_node<>* node) : Condition(node) {
+  if (node->first_node("has")->value() == "yes") {
+    has = true;
+  }
+  else {
+    has = false;
+  }
+  
+  owner = node->first_node("owner")->value();
+}
+
 HasCondition::~HasCondition() {}
 
-bool HasCondition::isTrue() {
-  if (has) {
-    return owner->contains(object);
-  }
+bool HasCondition::getHas() {
+  return has;
+}
 
-  return !owner->contains(object);
+string HasCondition::getOwner() {
+  return owner;
 }

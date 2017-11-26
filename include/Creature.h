@@ -8,18 +8,22 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include "rapidxml.hpp"
 
 using namespace std;
+using namespace rapidxml;
 
 class Creature : public GameObject {
  private:
-  vector<string> vulnerability;
+  vector<string> vulnerabilities;
   Attack* attack;
 
  public:
   Creature(string n, string s, string d, vector<string> v, Attack* a,
 	   vector<Trigger*> t);
+  Creature(xml_node<>* node);
   virtual ~Creature();
-  Attack* getAttack(GameObject* item);
+  bool doAttack(string item);
+  Attack* getAttack();
 };
 #endif

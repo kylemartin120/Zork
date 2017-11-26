@@ -2,21 +2,24 @@
 #define HASCONDITION_H_
 
 #include "Condition.h"
-#include "GameObject.h"
 
 #include <string>
 #include <iostream>
+#include "rapidxml.hpp"
 
 using namespace std;
+using namespace rapidxml;
 
 class HasCondition : public Condition {
  private:
   bool has;
-  GameObject* owner;
+  string owner;
 
  public:
-  HasCondition(bool h, GameObject* obj, GameObject* own);
+  HasCondition(bool h, string obj, string own);
+  HasCondition(xml_node<>* node);
   virtual ~HasCondition();
-  bool isTrue();
+  bool getHas();
+  string getOwner();
 };
 #endif

@@ -1,29 +1,35 @@
 #include "Creature.h"
-#include "Trigger.h"
-#include "GameObject.h"
-#include "Attack.h"
-
-#include <string>
-#include <iostream>
-#include <vector>
-
-using namespace std;
 
 Creature::Creature(string n, string s, string d, vector<string> v, Attack* a,
 		   vector<Trigger*> t) : GameObject(n, d, s, t) {
-  vulnerability = v;
+  vulnerabilities = v;
   attack = a;
+}
+
+Creature::Creature(xml_node<>* node) : GameObject(node) {
+  for (xml_node<>* cur_node = node->first_node("vulnerability");
+       cur_node; cur_node = cur_node->next_sibling("vulnerability")) {
+    vulnerabilities.push_back(cur_node->value());
+  }
+
+  if (node->first_node("attack") != NULL) {
+    attack = new Attack(node->first_node("attack"));
+  }
 }
 
 Creature::~Creature() {}
 
-Attack* Creature::getAttack(GameObject* item) {
-  cout << "You assault the " << name << " with the " << item->getName() << endl;
-  for (unsigned int i = 0; i < vulnerability.size(); i++) {
-    if (vulnerability[i] == item->getName()) {
-      return attack;
+bool Creature::doAttack(string item) {
+  cout << "You assault the " << name << " with the " << item << endl;
+  for (unsigned int i = 0; i < vulnerabilities.size(); i++) {
+    if (vulnerabilities[i] == item) {
+      return true;
     }
   }
 
-  return NULL;
+  return false;
+}
+
+Attack* Creature::getAttack() {
+  return attack;
 }

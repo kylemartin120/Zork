@@ -7,22 +7,26 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include "rapidxml.hpp"
 
 using namespace std;
+using namespace rapidxml;
 
 class Container : public GameObject {
  private:
   vector<string> accept;
-  vector<GameObject*> items;
-  bool isOpen;
+  vector<string> items;
+  bool isOpened;
 
  public:
   Container(string n, string s, string d, vector<string> a,
-	    vector<GameObject*> i, vector<Trigger*> t);
+	    vector<string> i, vector<Trigger*> t);
+  Container(xml_node<>* node);
   virtual ~Container();
   void open();
-  GameObject* getItem(string name);
-  bool putItem(GameObject* item);
+  vector<string> getItems();
+  bool isOpen();
+  bool putItem(string item);
 };
 #endif
   

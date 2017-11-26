@@ -1,23 +1,22 @@
 #ifndef CONDITION_H_
 #define CONDITION_H_
 
-#include "GameObject.h"
-
 #include <string>
 #include <iostream>
+#include "rapidxml.hpp"
 
 using namespace std;
-
-class GameObject; // forward declare
+using namespace rapidxml;
 
 class Condition {
  protected:
-  GameObject* object;
+  string object;
 
  public:
-  Condition(GameObject* obj);
+  Condition(string obj);
+  Condition(xml_node<>* node);
   virtual ~Condition();
-  virtual bool isTrue();
+  string getObject();
 };
 
 #endif

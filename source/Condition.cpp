@@ -1,17 +1,15 @@
 #include "Condition.h"
-#include "GameObject.h"
 
-#include <string>
-#include <iostream>
-
-using namespace std;
-
-Condition::Condition(GameObject* obj) {
+Condition::Condition(string obj) {
   object = obj;
+}
+
+Condition::Condition(xml_node<>* node) {
+  object = node->first_node("object")->value();
 }
 
 Condition::~Condition() {}
 
-bool Condition::isTrue() {
-  return false; // will be overwritten by other classes
+string Condition::getObject() {
+  return object;
 }

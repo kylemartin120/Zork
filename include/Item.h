@@ -7,19 +7,24 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include "rapidxml.hpp"
 
 using namespace std;
+using namespace rapidxml;
 
 class Item : public GameObject {
  private:
   string writing;
-  vector<string> onCommands;
+  vector<string> prints;
+  vector<string> actions;
 
  public:
-  Item(string n, string s, string d, string w, vector<string> on,
-       vector<Trigger*> t);
+  Item(string n, string s, string d, string w, vector<string> p,
+       vector<string> a, vector<Trigger*> t);
+  Item(xml_node<>* node);
   virtual ~Item();
   void printWriting();
-  vector<string> getOnCommands();
+  vector<string> getPrints();
+  vector<string> getActions();
 };
 #endif

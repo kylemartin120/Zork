@@ -6,13 +6,17 @@
 
 using namespace std;
 
-StatusCondition::StatusCondition(GameObject* obj, string stat) :
+StatusCondition::StatusCondition(string obj, string stat) :
   Condition(obj) {
   status = stat;
 }
 
+StatusCondition::StatusCondition(xml_node<>* node) : Condition(node) {
+  status = node->first_node("status")->value();
+}
+
 StatusCondition::~StatusCondition() {}
 
-bool StatusCondition::isTrue() {
-  return (object->getStatus() == status);
+string StatusCondition::getStatus() {
+  return status;
 }

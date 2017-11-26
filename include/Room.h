@@ -11,28 +11,31 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include "rapidxml.hpp"
 
 using namespace std;
+using namespace rapidxml;
 
 class Room : public GameObject {
  private:
   string type;
   vector<Border*> borders;
-  vector<Container*> containers;
-  vector<Item*> items;
-  vector<Creature*> creatures;
+  vector<string> containers;
+  vector<string> items;
+  vector<string> creatures;
   vector<Trigger*> triggers;
 
  public:
   Room(string n, string s, string t, string d, vector<Border*> b,
-       vector<Container*> c, vector<Item*> i, vector<Creature*> cr,
+       vector<string> c, vector<string> i, vector<string> cr,
        vector<Trigger*> trigs);
+  Room(xml_node<>* node);
   virtual ~Room();
   string checkBorders(string direction);
-  vector<Container*> getContainers();
-  vector<Item*> getItems();
-  vector<Creature*> getCreatures();
+  vector<string> getContainers();
+  vector<string> getItems();
+  vector<string> getCreatures();
   vector<Trigger*> getTriggers();
-  void putItem(Item* item);
+  void putItem(string item);
 };
 #endif

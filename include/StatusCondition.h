@@ -6,16 +6,19 @@
 
 #include <string>
 #include <iostream>
+#include "rapidxml.hpp"
 
 using namespace std;
+using namespace rapidxml;
 
 class StatusCondition : public Condition {
  private:
   string status;
 
  public:
-  StatusCondition(GameObject* obj, string stat);
+  StatusCondition(string obj, string stat);
+  StatusCondition(xml_node<>* node);
   ~StatusCondition();
-  bool isTrue();
+  string getStatus();
 };
 #endif

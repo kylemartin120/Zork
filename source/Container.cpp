@@ -1,19 +1,30 @@
 #include "Container.h"
-#include "GameObject.h"
-#include "Trigger.h"
-
-#include <string>
-#include <iostream>
-#include <vector>
-
-using namespace std;
 
 Container::Container(string n, string s, string d, vector<string> a,
-		     vector<GameObject*> i, vector<Trigger*> t) :
+		     vector<string> i, vector<Trigger*> t) :
   GameObject(n, d, s, t) {
   accept = a;
   items = i;
-  isOpen = false;
+  isOpened = false;
+}
+
+Container::Container(xml_node<>* node) : GameObject(node) {
+  for (xml_node<>* cur_node = node->first_node("accept");
+       cur_node; cur_node = cur_node->next_sibling("accept")) {
+    accept.push_back(cur_node->value());
+  }
+
+  if (accept.size() > 0) {
+    isOpened = false;
+  }
+  else {
+    isOpened = true;
+  }
+
+  for (xml_node<>* cur_node = node->first_node("item");
+       cur_node; cur_node = cur_node->next_sibling("item")) {
+    items.push_back(cur_node->value());
+  }
 }
 
 Container::~Container() {}
@@ -21,29 +32,25 @@ Container::~Container() {}
 void Container::open() {
   cout << name << " contains ";
   for (unsigned int i = 0; i < items.size(); i++) {
-    cout << items[i]->getName();
+    cout << items[i];
     if (i < items.size() - 1) {
       cout << ", ";
     }
   }
   cout << endl;
-  isOpen = true;
+  isOpened = true;
 }
 
-GameObject* Container::getItem(string name) {
-  if (isOpen) {
-    for (unsigned int i = 0; i < items.size(); i++) {
-      if (items[i]->getName() == name) {
-	return items[i];
-      }
-    }
-  }
-
-  return NULL;
+vector<string> Container::getItems() {
+  return items;
 }
 
-bool Container::putItem(GameObject* item) {
-  if (isOpen) {
+bool Container::isOpen() {
+  return isOpened;
+}
+
+bool Container::putItem(string item) {
+  if (isOpened) {
     items.push_back(item);
     return true;
   }

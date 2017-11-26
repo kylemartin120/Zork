@@ -1,17 +1,30 @@
 #include "GameObject.h"
-#include "Trigger.h"
-
-#include <string>
-#include <iostream>
-#include <vector>
-
-using namespace std;
 
 GameObject::GameObject(string n, string d, string s, vector<Trigger*> t) {
   name = n;
   description = d;
   status = s;
   trigs = t;
+}
+
+GameObject::GameObject(xml_node<>* node) {
+  if (node->first_node() == NULL) {
+    name = node->value();
+  }
+  else {
+    name = node->first_node("name")->value();
+    if (node->first_node("description") != NULL) {
+      description = node->first_node("description")->value();
+    }
+    if (node->first_node("status") != NULL) {
+      status = node->first_node("status")->value();
+    }
+    for (xml_node<>* cur_node = node->first_node("room");
+	 cur_node; cur_node = cur_node->next_sibling("room")) {
+      Trigger* this_trig = new Trigger(cur_node);
+      trigs.push_back(this_trig);
+    }
+  }
 }
 
 GameObject::~GameObject() {}
@@ -26,22 +39,6 @@ void GameObject::printDescription() {
 
 string GameObject::getStatus() {
   return status;
-}
-
-bool GameObject::testTrigs() {
-  if (sizeof(trigs) == 0) {
-    return false;
-  }
-
-  bool activate = false;
-  
-  for (unsigned int i = 0; i < trigs.size(); i++) {
-    if (trigs[i]->isTriggered()) {
-      activate = true;
-    }
-  }
-
-  return activate;
 }
   
 bool GameObject::contains(GameObject* obj) {

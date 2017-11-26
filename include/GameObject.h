@@ -6,8 +6,10 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "rapidxml.hpp"
 
 using namespace std;
+using namespace rapidxml;
 
 class Trigger;
 
@@ -20,11 +22,11 @@ class GameObject {
 
  public:
   GameObject(string n, string d, string s, vector<Trigger*> t);
+  GameObject(xml_node<>* node);
   virtual ~GameObject();
   string getName();
   void printDescription();
   string getStatus();
-  bool testTrigs(); // true if any of the triggers are true
   virtual bool contains(GameObject* obj);
 };
 #endif

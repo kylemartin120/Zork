@@ -1,11 +1,4 @@
 #include "Trigger.h"
-#include "Condition.h"
-
-#include <iostream>
-#include <string>
-#include <vector>
-
-using namespace std;
 
 Trigger::Trigger(vector<string> a, vector<string> pr, vector<string> co,
 		 bool p, vector<Condition*> c) {
@@ -17,31 +10,49 @@ Trigger::Trigger(vector<string> a, vector<string> pr, vector<string> co,
   conditions = c;
 }
 
-Trigger::~Trigger(string curCommand) {}
-
-bool Trigger::isTriggered() {
-  if (used && !permanent) {
-    return false;
-  }
-  for (unsigned int i = 0; i < conditions.size(); i++) {
-    if (!conditions[i]->isTrue()) {
-      return false;
-    }
-  }
-  if (commands.size() > 0) {
-    for (unsigned int i = 0; i < commands.size(); i++) {
-      if (curCommand == commands[i]) {
-	  used = true;
-	  return true;
-	  }
-    }
+Trigger::Trigger(xml_node<>* node) {
+  used = false;
+  
+  if (node->first_node("type") != NULL &&
+      node->first_node("type")->value() == "permanent") {
+    permanent = true;
   }
   else {
-    used = true;
-    return true;
+    permanent = false;
+  }
+  
+  for (xml_node<>* cur_node = node->first_node("condition");
+       cur_node; cur_node = cur_node->next_sibling("condition")) {
+    if (cur_node->first_node("has") == NULL) {
+      StatusCondition* condition = new StatusCondition(cur_node);
+      conditions.push_back(condition);
+    }
+    else {
+      HasCondition* condition = new HasCondition(cur_node);
+      conditions.push_back(condition);
+    }
   }
 
-  return false;
+  for (xml_node<>* cur_node = node->first_node("print");
+       cur_node; cur_node = cur_node->next_sibling("print")) {
+    prints.push_back(cur_node->value());
+  }
+
+  for (xml_node<>* cur_node = node->first_node("action");
+       cur_node; cur_node = cur_node->next_sibling("action")) {
+    actions.push_back(cur_node->value());
+  }
+
+  for (xml_node<>* cur_node = node->first_node("command");
+       cur_node; cur_node = cur_node->next_sibling("command")) {
+    commands.push_back(cur_node->value());
+  }
+}
+
+Trigger::~Trigger() {}
+
+vector<Condition*> Trigger::getConditions() {
+  return conditions;
 }
 
 vector<string> Trigger::getPrints() {
