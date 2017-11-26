@@ -14,13 +14,12 @@ using namespace rapidxml;
 class Trigger;
 
 class GameObject {
- protected:
+ public:
   string name;
   string description;
   string status;
   vector<Trigger*> trigs;
 
- public:
   GameObject(string n, string d, string s, vector<Trigger*> t);
   GameObject(xml_node<>* node);
   virtual ~GameObject();

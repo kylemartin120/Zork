@@ -13,12 +13,11 @@ using namespace std;
 using namespace rapidxml;
 
 class Container : public GameObject {
- private:
+ public:
   vector<string> accept;
   vector<string> items;
   bool isOpened;
 
- public:
   Container(string n, string s, string d, vector<string> a,
 	    vector<string> i, vector<Trigger*> t);
   Container(xml_node<>* node);

@@ -11,11 +11,10 @@ using namespace std;
 using namespace rapidxml;
 
 class HasCondition : public Condition {
- private:
+ public:
   bool has;
   string owner;
-
- public:
+  
   HasCondition(bool h, string obj, string own);
   HasCondition(xml_node<>* node);
   virtual ~HasCondition();

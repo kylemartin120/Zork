@@ -42,8 +42,8 @@ Room::Room(xml_node<>* node) : GameObject(node) {
     containers.push_back(cur_node->value());
   }
 
-  for (xml_node<>* cur_node = node->first_node("items");
-       cur_node; cur_node = cur_node->next_sibling("items")) {
+  for (xml_node<>* cur_node = node->first_node("item");
+       cur_node; cur_node = cur_node->next_sibling("item")) {
     items.push_back(cur_node->value());
   }
 

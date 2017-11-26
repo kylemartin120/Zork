@@ -9,10 +9,9 @@ using namespace std;
 using namespace rapidxml;
 
 class Condition {
- protected:
+ public:
   string object;
 
- public:
   Condition(string obj);
   Condition(xml_node<>* node);
   virtual ~Condition();

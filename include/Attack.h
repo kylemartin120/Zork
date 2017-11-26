@@ -14,12 +14,11 @@ using namespace std;
 using namespace rapidxml;
 
 class Attack {
- private:
+ public:
   vector<Condition*> conditions;
   vector<string> prints;
   vector<string> actions;
 
- public:
   Attack(vector<Condition*> c, vector<string> p, vector<string> a);
   Attack(xml_node<>* node);
   virtual ~Attack();

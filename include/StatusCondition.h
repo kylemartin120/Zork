@@ -12,10 +12,9 @@ using namespace std;
 using namespace rapidxml;
 
 class StatusCondition : public Condition {
- private:
+ public:
   string status;
 
- public:
   StatusCondition(string obj, string stat);
   StatusCondition(xml_node<>* node);
   ~StatusCondition();

@@ -14,7 +14,7 @@ using namespace std;
 using namespace rapidxml;
 
 class Creature : public GameObject {
- private:
+ public:
   vector<string> vulnerabilities;
   Attack* attack;
 

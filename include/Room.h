@@ -17,7 +17,7 @@ using namespace std;
 using namespace rapidxml;
 
 class Room : public GameObject {
- private:
+ public:
   string type;
   vector<Border*> borders;
   vector<string> containers;
@@ -25,7 +25,6 @@ class Room : public GameObject {
   vector<string> creatures;
   vector<Trigger*> triggers;
 
- public:
   Room(string n, string s, string t, string d, vector<Border*> b,
        vector<string> c, vector<string> i, vector<string> cr,
        vector<Trigger*> trigs);

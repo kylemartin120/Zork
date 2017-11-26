@@ -9,11 +9,10 @@ using namespace std;
 using namespace rapidxml;
 
 class Border {
- private:
+ public:
   string name;
   string direction;
 
- public:
   Border(string n, string d);
   Border(xml_node<>* node);
   virtual ~Border();

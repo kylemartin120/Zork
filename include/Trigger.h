@@ -16,7 +16,7 @@ using namespace rapidxml;
 class Condition;
 
 class Trigger {
- private:
+ public:
   vector<string> actions;
   vector<string> prints;
   vector<string> commands;
@@ -24,7 +24,6 @@ class Trigger {
   bool used; // only matters if permanent is false
   vector<Condition*> conditions;
 
- public:
   Trigger(vector<string> a, vector<string> ps, vector<string> co, bool p,
 	  vector<Condition*> c);
   Trigger(xml_node<>* node);
