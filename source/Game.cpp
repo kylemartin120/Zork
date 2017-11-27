@@ -186,7 +186,7 @@ void Game::handleCommand(string command) {
   }
 
   else if (input == "open exit") {
-    //exitGame();
+    exitGame();
   }
 
   else if (parts[0] == "take") {
@@ -227,7 +227,7 @@ void Game::handleCommand(string command) {
   else if (parts[0] == "read") {
     if (inInventory(parts[1])) {
       Item* i = getItem(parts[1]);
-      //read(i);
+      read(i);
     }
     else {
       cout << "Item not in inventory." << endl;
@@ -237,7 +237,7 @@ void Game::handleCommand(string command) {
   else if (parts[0] == "drop") {
     if (inInventory(parts[1])) {
       Item* i = getItem(parts[1]);
-      //drop(i);
+      drop(i);
     }
     else {
       cout << "Item not in inventory." << endl;
@@ -264,7 +264,7 @@ void Game::handleCommand(string command) {
   else if (parts[0] == "turn" && parts[1] == "on") {
     if (inInventory(parts[2])) {
       Item* i = getItem(parts[2]);
-      //turnOn(i);
+      turnOn(i);
     }
     else {
       cout << "Item not in inventory." << endl;
@@ -376,10 +376,10 @@ void Game::move(string dir) {
 void Game::take(Item* i) {
   string name = (string) i->name;
   inventory.push_back(name);
-  for (int i = 0; i < cur_room->items.size(); i++) {
-    if (cur_room->items[i] == name) {
-      cur_room->items.erase(cur_room->items.begin() + i);
-      i = cur_room->items.size();
+  for (int j = 0; j < cur_room->items.size(); j++) {
+    if (cur_room->items[j] == name) {
+      cur_room->items.erase(cur_room->items.begin() + j);
+      j = cur_room->items.size();
     }
   }
   cout << "Item " << name << " added to inventory." << endl;
@@ -388,10 +388,10 @@ void Game::take(Item* i) {
 void Game::take(Item* i, Container* c) {
   string name = (string) i->name;
   inventory.push_back(name);
-  for (int i = 0; i < c->items.size(); i++) {
-    if (c->items[i] == name) {
-      c->items.erase(c->items.begin() + i);
-      i = c->items.size();
+  for (int j = 0; j < c->items.size(); j++) {
+    if (c->items[j] == name) {
+      c->items.erase(c->items.begin() + j);
+      j = c->items.size();
     }
   }
   cout << "Item " << name << " added to inventory." << endl;
@@ -400,10 +400,10 @@ void Game::take(Item* i, Container* c) {
 void Game::put(Item* i, Container* c) {
   string name = (string) i->name;
   c->items.push_back(name);
-  for (int i = 0; i < inventory.size(); i++) {
-    if (inventory[i] == name) {
-      inventory.erase(inventory.begin() + i);
-      i = inventory.size();
+  for (int j = 0; j < inventory.size(); j++) {
+    if (inventory[j] == name) {
+      inventory.erase(inventory.begin() + j);
+      j = inventory.size();
     }
   }
   cout << "Item " << name << " added to " << c->name << "." << endl;
@@ -427,3 +427,44 @@ void Game::open(Container* c) {
     }
   }
 }
+
+void Game::exitGame() {
+  string cur_type = (string) cur_room->type;
+  if (cur_type == "exit") {
+    cout << "Game Over" << endl;
+    gameOver = true;
+  }
+}
+
+
+void Game::read(Item* i) {
+  if (((string) i->writing).size() > 0) {
+    cout << (string) i->writing << endl;
+  }
+  else {
+    cout << "Nothing written." << endl;
+  }
+}
+
+void Game::drop(Item* i) {
+  string name = (string) i->name;
+  cout << name << " dropped." << endl;
+  cur_room->items.push_back(name);
+  for (int j = 0; j < inventory.size(); j++) {
+    if (name == inventory[j]) {
+      inventory.erase(inventory.begin() + j);
+    }
+  }
+}
+
+void Game::turnOn(Item* i) {
+  string name = (string) i->name;
+  cout << "You activate the " << name << "." << endl;
+  // execute turning on
+}
+
+void Game::endGame() {
+  cout << "Victory!" << endl;
+  gameOver = true;
+}
+

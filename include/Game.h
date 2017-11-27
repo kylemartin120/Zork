@@ -57,7 +57,7 @@ class Game {
   void open(Container* c);
   void exitGame(); // if current room is type "exit", leave game
   void drop(Item* i);
-  bool turnOn(Item* i);
+  void turnOn(Item* i);
   void read(Item* i);
   void attack(Item* i, Creature* c);
   void addObject(GameObject* o, Room* r);
