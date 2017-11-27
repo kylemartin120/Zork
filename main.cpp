@@ -15,7 +15,7 @@
 using namespace std;
 
 int main (int argc, char *argv[]) {
-  Game* myGame = new Game("xml_source/roomsample.xml");
+  Game* myGame = new Game("xml_source/triggersample.xml");
   myGame->cur_room = myGame->getRoom("Entrance");
   cout << myGame->cur_room->description << endl;
   

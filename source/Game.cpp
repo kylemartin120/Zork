@@ -510,6 +510,9 @@ void Game::attack(Item* i, Creature* c) {
        << "." << endl;
   if (c->doAttack((string) i->name)) {
     Attack* attack = c->getAttack();
+    if (!attack) {
+      return;
+    }
     vector<Condition*> conds = attack->conditions;
     vector<string> prints = attack->prints;
     vector<string> actions = attack->actions;
