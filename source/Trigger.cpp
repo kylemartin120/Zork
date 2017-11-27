@@ -12,9 +12,10 @@ Trigger::Trigger(vector<string> a, vector<string> pr, vector<string> co,
 
 Trigger::Trigger(xml_node<>* node) {
   used = false;
+  last_used = -1;
   
   if (node->first_node("type") != NULL &&
-      node->first_node("type")->value() == "permanent") {
+      (string) node->first_node("type")->value() == "permanent") {
     permanent = true;
   }
   else {

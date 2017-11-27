@@ -42,6 +42,7 @@ Game::Game(string filename) {
   cur_room = rooms[0];
   input = "";
   gameOver = false;
+  turn_num = 0;
 }
 
 Game::~Game() {}
@@ -124,10 +125,18 @@ bool Game::checkTriggers(vector<Trigger*> triggers) {
     vector<string> cur_comms = triggers[i]->commands;
 
     bool act = true;
-    for (int j = 0; j < cur_conds.size(); j++) {
-      if (!isMet(cur_conds[j])) {
-	act = false;
-	j = cur_conds.size();
+    if (triggers[i]->used && !triggers[i]->permanent) {
+      act = false;
+    }
+    else if (triggers[i]->last_used == turn_num) {
+      act = false;
+    }
+    if (act) {
+      for (int j = 0; j < cur_conds.size(); j++) {
+	if (!isMet(cur_conds[j])) {
+	  act = false;
+	  j = cur_conds.size();
+	}
       }
     }
     if (act) {
@@ -140,7 +149,16 @@ bool Game::checkTriggers(vector<Trigger*> triggers) {
     }
 
     if (act) {
-      // act on trigger
+      triggers[i]->used = true;
+      triggers[i]->last_used = turn_num;
+      for (int j = 0; j < triggers[i]->prints.size(); j++) {
+	cout << triggers[i]->prints[j] << endl;
+      }
+
+      for (int j = 0; j < triggers[i]->actions.size(); j++) {
+	handleAction(triggers[i]->actions[j]);
+      }
+      
       return true;
     }
     
@@ -291,6 +309,8 @@ void Game::handleCommand(string command) {
   else {
     cout << "Invalid input." << endl;
   }
+
+  input = "";
 }
 
 void Game::handleAction(string action) {
@@ -517,8 +537,83 @@ void Game::addObject(GameObject* o, Container* c) {
 }
 
 void Game::delObject(GameObject* o) {
-}
+  for (int i = 0; i < objects.size(); i++) {
+    if ((string) objects[i]->name == (string) o->name) {
+      objects.erase(objects.begin() + i);
+    }
+  }
+  
+  if (o->obj_type == "item") {
+    for (int i = 0; i < items.size(); i++) {
+      if ((string) items[i]->name == (string) o->name) {
+	items.erase(items.begin() + i);
+      }
+    }
+    
+    for (int i = 0; i < rooms.size(); i++) {
+      for (int j = 0; j < rooms[i]->items.size(); j++) {
+	if ((string) o->name == rooms[i]->items[j]) {
+	  rooms[i]->items.erase(rooms[i]->items.begin() + j);
+	}
+      }
+    }
 
+    for (int i = 0; i < containers.size(); i++) {
+      for (int j = 0; j < containers[i]->items.size(); j++) {
+	if ((string) o->name == containers[i]->items[j]) {
+	  containers[i]->items.erase(containers[i]->items.begin() + j);
+	}
+      }
+    }
+  }
+
+  else if (o->obj_type == "container") {
+    for (int i = 0; i < containers.size(); i++) {
+      if ((string) containers[i]->name == (string) o->name) {
+	containers.erase(containers.begin() + i);
+      }
+    }
+    
+    for (int i = 0; i < rooms.size(); i++) {
+      for (int j = 0; j < rooms[i]->containers.size(); j++) {
+	if ((string) o->name == rooms[i]->containers[j]) {
+	  rooms[i]->containers.erase(rooms[i]->containers.begin() +  j);
+	}
+      }
+    }
+  }
+
+  else if (o->obj_type == "creature") {
+    for (int i = 0; i < creatures.size(); i++) {
+      if ((string) creatures[i]->name == (string) o->name) {
+	creatures.erase(creatures.begin() + i);
+      }
+    }
+
+    for (int i = 0; i < rooms.size(); i++) {
+      for (int j = 0; j < rooms[i]->creatures.size(); j++) {
+	if ((string) o->name == rooms[i]->creatures[j]) {
+	  rooms[i]->creatures.erase(rooms[i]->creatures.begin() +  j);
+	}
+      }
+    }
+  }
+
+  else if (o->obj_type == "room") {
+    for (int i = 0; i < rooms.size(); i++) {
+      if ((string) rooms[i]->name == (string) o->name) {
+	rooms.erase(rooms.begin() + i);
+      }
+      
+      for (int j = 0; j< rooms[i]->borders.size(); j++) {
+	if ((string) o->name == (string) rooms[i]->borders[j]->name) {
+	  rooms[i]->borders.erase(rooms[i]->borders.begin() + j);
+	}
+      }
+    }
+  }
+}
+  
 void Game::update(GameObject* o, string s) {
   o->status = s;
 }

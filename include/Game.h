@@ -9,7 +9,8 @@
 #include <iterator>
 #include "rapidxml.hpp"
 #include <vector>
-#include <queue>
+#include <algorithm>
+#include <functional>
 
 #include "Item.h"
 #include "Container.h"
@@ -31,6 +32,7 @@ class Game {
   string input;
   Room* cur_room;
   bool gameOver;
+  int turn_num;
 
   Game(string filename);
   virtual ~Game();

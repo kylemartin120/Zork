@@ -22,6 +22,7 @@ class Trigger {
   vector<string> commands;
   bool permanent;
   bool used; // only matters if permanent is false
+  int last_used; // the last turn number it was used
   vector<Condition*> conditions;
 
   Trigger(vector<string> a, vector<string> ps, vector<string> co, bool p,

@@ -20,17 +20,17 @@ int main (int argc, char *argv[]) {
   cout << myGame->cur_room->description << endl;
   
   while (!myGame->gameOver) {
+    myGame->turn_num++;
     getline(cin, myGame->input);
 
     // check all triggers, and only execute command if not triggered
-    //if (!myGame->checkAllTriggers()) {
+    if (!myGame->checkAllTriggers()) {
       myGame->handleCommand(myGame->input);
-      //}
+    }
 
     // keep checking triggers until effects are over
-      // while (myGame->checkAllTriggers()) {}
+    while (myGame->checkAllTriggers()) {}
   }
 
   // end gracefully
-  //delete(myGame);
 }
