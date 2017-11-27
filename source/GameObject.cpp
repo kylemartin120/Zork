@@ -4,7 +4,7 @@ GameObject::GameObject(string n, string d, string s, vector<Trigger*> t) {
   name = n;
   description = d;
   status = s;
-  trigs = t;
+  triggers = t;
 }
 
 GameObject::GameObject(xml_node<>* node) {
@@ -22,7 +22,7 @@ GameObject::GameObject(xml_node<>* node) {
     for (xml_node<>* cur_node = node->first_node("room");
 	 cur_node; cur_node = cur_node->next_sibling("room")) {
       Trigger* this_trig = new Trigger(cur_node);
-      trigs.push_back(this_trig);
+      triggers.push_back(this_trig);
     }
   }
 }

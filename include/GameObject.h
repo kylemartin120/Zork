@@ -18,7 +18,7 @@ class GameObject {
   string name;
   string description;
   string status;
-  vector<Trigger*> trigs;
+  vector<Trigger*> triggers;
 
   GameObject(string n, string d, string s, vector<Trigger*> t);
   GameObject(xml_node<>* node);

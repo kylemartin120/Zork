@@ -1,2 +1,2 @@
 main: xmlTest.cpp
-	g++ -o xmlTest -Iinclude xmlTest.cpp source/*
+	g++ -o test -Iinclude test.cpp source/*

@@ -25,12 +25,13 @@ class Game {
   vector<Container*> containers;
   vector<Creature*> creatures;
   vector<Item*> inventory;
+  vector<GameObject*> objects;
   string input;
-  string curRoom;
+  Room* cur_room;
 
   Game(string filename);
   virtual ~Game();
-  void createWorld(string filename);
+  bool checkTriggers(vector<Trigger*> triggers);
   bool checkAllTriggers();
   void handleCommand(string command);
   void printInventory();
