@@ -411,6 +411,10 @@ void Game::take(Item* i) {
 }
 
 void Game::take(Item* i, Container* c) {
+  if (!c->isOpened) {
+    cout << "Couldn't find item" << endl;
+    return;
+  }
   string name = (string) i->name;
   inventory.push_back(name);
   for (int j = 0; j < c->items.size(); j++) {
@@ -458,6 +462,9 @@ void Game::exitGame() {
   if (cur_type == "exit") {
     cout << "Game Over" << endl;
     gameOver = true;
+  }
+  else {
+    cout << "Not an exit." << endl;
   }
 }
 

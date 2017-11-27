@@ -14,12 +14,7 @@ Container::Container(xml_node<>* node) : GameObject(node) {
     accept.push_back(cur_node->value());
   }
 
-  if (accept.size() > 0) {
-    isOpened = false;
-  }
-  else {
-    isOpened = true;
-  }
+  isOpened = false;
 
   for (xml_node<>* cur_node = node->first_node("item");
        cur_node; cur_node = cur_node->next_sibling("item")) {
