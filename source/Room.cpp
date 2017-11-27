@@ -55,6 +55,8 @@ Room::Room(xml_node<>* node) : GameObject(node) {
     creatures.push_back(cur_node->value());
     objects.push_back(cur_node->value());
   }
+
+  obj_type = "room";
 }
 
 Room::~Room() {}

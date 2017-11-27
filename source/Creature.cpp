@@ -15,12 +15,13 @@ Creature::Creature(xml_node<>* node) : GameObject(node) {
   if (node->first_node("attack") != NULL) {
     attack = new Attack(node->first_node("attack"));
   }
+
+  obj_type = "creature";
 }
 
 Creature::~Creature() {}
 
 bool Creature::doAttack(string item) {
-  cout << "You assault the " << name << " with the " << item << endl;
   for (unsigned int i = 0; i < vulnerabilities.size(); i++) {
     if (vulnerabilities[i] == item) {
       return true;

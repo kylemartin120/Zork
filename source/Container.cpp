@@ -25,6 +25,8 @@ Container::Container(xml_node<>* node) : GameObject(node) {
        cur_node; cur_node = cur_node->next_sibling("item")) {
     items.push_back(cur_node->value());
   }
+
+  obj_type = "container";
 }
 
 Container::~Container() {}

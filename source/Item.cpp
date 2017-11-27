@@ -12,15 +12,20 @@ Item::Item(xml_node<>* node) : GameObject(node) {
     writing = node->first_node("writing")->value();
   }
 
-  for (xml_node<>* cur_node = node->first_node("action");
-       cur_node; cur_node = cur_node->next_sibling("action")) {
-    actions.push_back(cur_node->value());
+  node = node->first_node("turnon");
+  if (node != NULL) {
+    for (xml_node<>* cur_node = node->first_node("action");
+	 cur_node; cur_node = cur_node->next_sibling("action")) {
+      actions.push_back(cur_node->value());
+    }
+    
+    for (xml_node<>* cur_node = node->first_node("print");
+	 cur_node; cur_node = cur_node->next_sibling("print")) {
+      prints.push_back(cur_node->value());
+    }
   }
-
-  for (xml_node<>* cur_node = node->first_node("print");
-       cur_node; cur_node = cur_node->next_sibling("print")) {
-    prints.push_back(cur_node->value());
-  }
+  
+  obj_type = "item";
 }
 
 Item::~Item() {}

@@ -12,8 +12,8 @@ Attack::Attack(xml_node<>* node) {
     actions.push_back(cur_node->value());
   }
 
-  for (xml_node<>* cur_node = node->first_node("prints");
-       cur_node; cur_node = cur_node->next_sibling("prints")) {
+  for (xml_node<>* cur_node = node->first_node("print");
+       cur_node; cur_node = cur_node->next_sibling("print")) {
     prints.push_back(cur_node->value());
   }
 

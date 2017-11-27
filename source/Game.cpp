@@ -277,7 +277,7 @@ void Game::handleCommand(string command) {
 	if (parts[1] == cur_room->creatures[i]) {
 	  Creature* c = getCreature(parts[1]);
 	  Item* i = getItem(parts[3]);
-	  //attack(c, i);
+	  attack(i, c);
 	  return;
 	}
       }
@@ -301,14 +301,14 @@ void Game::handleAction(string action) {
   if (parts[0] == "Update" && parts[2] == "to") {
     GameObject* o = getObject(parts[1]);
     if (o) {
-      //update(o, parts[3]);
+      update(o, parts[3]);
     }
   }
 
   else if (parts[0] == "Delete") {
     GameObject* o = getObject(parts[1]);
     if (o) {
-      //delObject(o);
+      delObject(o);
     }
   }
 
@@ -318,7 +318,7 @@ void Game::handleAction(string action) {
       for (int i = 0; i < rooms.size(); i++) {
 	if ((string) rooms[i]->name == parts[3]) {
 	  Room* r = rooms[i];
-	  //addObject(o, r);
+	  addObject(o, r);
 	  return;
 	}
       }
@@ -326,7 +326,7 @@ void Game::handleAction(string action) {
 	for (int j = 0; j < rooms[i]->containers.size(); j++) {
 	  if (rooms[i]->containers[j] == parts[3]) {
 	    Container* c = getContainer(parts[3]);
-	    //addObject(o, c);
+	    addObject(o, c);
 	    return;
 	  }
 	}
@@ -335,7 +335,7 @@ void Game::handleAction(string action) {
   }
 
   else if (action == "Game Over") {
-    //endGame();
+    endGame();
   }
 
   else {
@@ -460,7 +460,12 @@ void Game::drop(Item* i) {
 void Game::turnOn(Item* i) {
   string name = (string) i->name;
   cout << "You activate the " << name << "." << endl;
-  // execute turning on
+  for (int j = 0; j < i->prints.size(); j++) {
+    cout << i->prints[j] << endl;
+  }
+  for (int j = 0; j < i->actions.size(); j++) {
+    handleAction(i->actions[j]);
+  }
 }
 
 void Game::endGame() {
@@ -468,3 +473,52 @@ void Game::endGame() {
   gameOver = true;
 }
 
+void Game::attack(Item* i, Creature* c) {
+  cout << "You assault the " << c->name << " with the " << i->name
+       << "." << endl;
+  if (c->doAttack((string) i->name)) {
+    Attack* attack = c->getAttack();
+    vector<Condition*> conds = attack->conditions;
+    vector<string> prints = attack->prints;
+    vector<string> actions = attack->actions;
+    for (int j = 0; j < conds.size(); j++) {
+      if (!isMet(conds[j])) {
+	cout << "It doesn't work." << endl;
+	return;
+      }
+    }
+    for (int j = 0; j < prints.size(); j++) {
+      cout << prints[j] << endl;
+    }
+    for (int j = 0; j < actions.size(); j++) {
+      handleAction(actions[j]);
+    }
+  }
+  else {
+    cout << "It doesn't work." << endl;
+  }
+}
+
+void Game::addObject(GameObject* o, Room* r) {
+  r->objects.push_back((string) o->name);
+  if (o->obj_type == "item") {
+    r->items.push_back((string) o->name);
+  }
+  else if (o->obj_type == "creature") {
+    r->creatures.push_back((string) o->name);
+  }
+  else if (o->obj_type == "container") {
+    r->containers.push_back((string) o->name);
+  }
+}
+
+void Game::addObject(GameObject* o, Container* c) {
+  c->items.push_back((string) o->name);
+}
+
+void Game::delObject(GameObject* o) {
+}
+
+void Game::update(GameObject* o, string s) {
+  o->status = s;
+}
