@@ -16,5 +16,21 @@ using namespace std;
 
 int main (int argc, char *argv[]) {
   Game* myGame = new Game("xml_source/sample.txt.xml");
-  myGame->cur_room = myGame->rooms[0];
+  myGame->cur_room = myGame->getRoom("Entrance");
+  cout << myGame->cur_room->description << endl;
+  
+  while (!myGame->gameOver) {
+    getline(cin, myGame->input);
+
+    // check all triggers, and only execute command if not triggered
+    //if (!myGame->checkAllTriggers()) {
+      myGame->handleCommand(myGame->input);
+      //}
+
+    // keep checking triggers until effects are over
+      // while (myGame->checkAllTriggers()) {}
+  }
+
+  // end gracefully
+  //delete(myGame);
 }

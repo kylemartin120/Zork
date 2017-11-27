@@ -41,13 +41,14 @@ Game::Game(string filename) {
 
   cur_room = rooms[0];
   input = "";
+  gameOver = false;
 }
 
 Game::~Game() {}
 
 GameObject* Game::getObject(string name) {
   for (int i = 0; i < objects.size(); i++) {
-    if (objects[i]->name == name) {
+    if ((string) objects[i]->name == name) {
       return objects[i];
     }
   }
@@ -57,7 +58,7 @@ GameObject* Game::getObject(string name) {
 
 Item* Game::getItem(string name) {
   for (int i = 0; i < items.size(); i++) {
-    if (items[i]->name == name) {
+    if ((string) items[i]->name == name) {
       return items[i];
     }
   }
@@ -67,7 +68,7 @@ Item* Game::getItem(string name) {
 
 Creature* Game::getCreature(string name) {
   for (int i = 0; i < creatures.size(); i++) {
-    if (creatures[i]->name == name) {
+    if ((string) creatures[i]->name == name) {
       return creatures[i];
     }
   }
@@ -77,12 +78,20 @@ Creature* Game::getCreature(string name) {
 
 Container* Game::getContainer(string name) {
   for (int i = 0; i < containers.size(); i++) {
-    if (containers[i]->name == name) {
+    if ((string) containers[i]->name == name) {
       return containers[i];
     }
   }
 
   return NULL;
+}
+
+Room* Game::getRoom(string name) {
+  for (int i = 0; i < rooms.size(); i++) {
+    if ((string) rooms[i]->name == name) {
+      return rooms[i];
+    }
+  }
 }
 
 bool Game::inInventory(string name) {
@@ -169,11 +178,11 @@ void Game::handleCommand(string command) {
   input = command;
   
   if (input == "n" || input == "e" || input == "s" || input == "w") {
-    //move(input);
+    move(input);
   }
 
   else if (input == "i") {
-    //printInventory();
+    printInventory();
   }
 
   else if (input == "open exit") {
@@ -184,7 +193,7 @@ void Game::handleCommand(string command) {
     for (int i = 0; i < cur_room->items.size(); i++) {
       if (parts[1] == cur_room->items[i]) {
 	Item* i = getItem(parts[1]);
-	//take(i);
+	take(i);
 	return;
       }
     }
@@ -194,7 +203,7 @@ void Game::handleCommand(string command) {
       for (int j = 0; j < c->items.size(); j++) {
 	if (parts[1] == c->items[j]) {
 	  Item* i = getItem(parts[1]);
-	  //take(i, c);
+	  take(i, c);
 	  return;
 	}
       }
@@ -207,7 +216,7 @@ void Game::handleCommand(string command) {
     for (int i = 0; i < cur_room->containers.size(); i++) {
       if (cur_room->containers[i] == parts[1]) {
 	Container* c = getContainer(cur_room->containers[i]);
-	//open(c);
+	open(c);
 	return;
       }
     }
@@ -240,7 +249,8 @@ void Game::handleCommand(string command) {
       for (int i = 0; i < cur_room->containers.size(); i++) {
 	if (cur_room->containers[i] == parts[3]) {
 	  Container* c = getContainer(cur_room->containers[i]);
-	  //put(i, c);
+	  Item* it = getItem(parts[1]);
+	  put(it, c);
 	  return;
 	}
       }
@@ -330,5 +340,90 @@ void Game::handleAction(string action) {
 
   else {
     handleCommand(action);
+  }
+}
+
+void Game::printInventory() {
+  if (inventory.size() == 0) {
+    cout << "Inventory: empty" << endl;
+  }
+  else {
+    cout << "Inventory: ";
+    for (int i = 0; i < inventory.size(); i++) {
+      cout << inventory[i];
+      if (i < inventory.size() - 1) {
+	cout << ", ";
+      }
+      else {
+	cout << endl;
+      }
+    }
+  }
+}
+
+void Game::move(string dir) {
+  string room_name = cur_room->checkBorders(dir);
+  if (room_name == "Can't go that way") {
+    cout << room_name << endl;
+  }
+  else {
+    Room* r = getRoom(room_name);
+    cur_room = r;
+    cout << r->description << endl;
+  }
+}
+
+void Game::take(Item* i) {
+  string name = (string) i->name;
+  inventory.push_back(name);
+  for (int i = 0; i < cur_room->items.size(); i++) {
+    if (cur_room->items[i] == name) {
+      cur_room->items.erase(cur_room->items.begin() + i);
+      i = cur_room->items.size();
+    }
+  }
+  cout << "Item " << name << " added to inventory." << endl;
+}
+
+void Game::take(Item* i, Container* c) {
+  string name = (string) i->name;
+  inventory.push_back(name);
+  for (int i = 0; i < c->items.size(); i++) {
+    if (c->items[i] == name) {
+      c->items.erase(c->items.begin() + i);
+      i = c->items.size();
+    }
+  }
+  cout << "Item " << name << " added to inventory." << endl;
+}
+
+void Game::put(Item* i, Container* c) {
+  string name = (string) i->name;
+  c->items.push_back(name);
+  for (int i = 0; i < inventory.size(); i++) {
+    if (inventory[i] == name) {
+      inventory.erase(inventory.begin() + i);
+      i = inventory.size();
+    }
+  }
+  cout << "Item " << name << " added to " << c->name << "." << endl;
+}
+
+void Game::open(Container* c) {
+  c->isOpened = true;
+  if (c->items.size() == 0) {
+    cout << c->name << " is empty." << endl;
+  }
+  else {
+    cout << c->name << " contains ";
+    for (int i = 0; i < c->items.size(); i++) {
+      cout << c->items[i];
+      if (i < c->items.size() - 1) {
+	cout << ", ";
+      }
+      else {
+	cout << endl;
+      }
+    }
   }
 }

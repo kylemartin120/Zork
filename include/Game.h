@@ -30,6 +30,7 @@ class Game {
   vector<GameObject*> objects;
   string input;
   Room* cur_room;
+  bool gameOver;
 
   Game(string filename);
   virtual ~Game();
@@ -39,6 +40,7 @@ class Game {
   Item* getItem(string name);
   Creature* getCreature(string name);
   Container* getContainer(string name);
+  Room* getRoom(string name);
   bool inInventory(string name);
 
   // running the game
@@ -49,7 +51,9 @@ class Game {
   void handleAction(string action);
   void printInventory();
   void move(string dir);
-  void put(Item* i, Container* c); // used for take as well
+  void take(Item* i);
+  void take(Item* i, Container* c);
+  void put(Item* i, Container* c);
   void open(Container* c);
   void exitGame(); // if current room is type "exit", leave game
   void drop(Item* i);
