@@ -25,6 +25,7 @@ class Container : public GameObject {
   void open();
   vector<string> getItems();
   bool isOpen();
+  bool contains(string item);
   bool putItem(string item);
 };
 #endif

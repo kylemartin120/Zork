@@ -21,6 +21,10 @@ HasCondition::HasCondition(xml_node<>* node) : Condition(node) {
 
 HasCondition::~HasCondition() {}
 
+bool HasCondition::hasType() {
+  return true;
+}
+
 bool HasCondition::getHas() {
   return has;
 }

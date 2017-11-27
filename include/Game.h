@@ -24,14 +24,24 @@ class Game {
   vector<Item*> items;
   vector<Container*> containers;
   vector<Creature*> creatures;
-  vector<Item*> inventory;
+  vector<string> inventory;
   vector<GameObject*> objects;
   string input;
   Room* cur_room;
 
   Game(string filename);
   virtual ~Game();
+
+  // finding objects
+  GameObject* getObject(string name);
+  Item* getItem(string name);
+  Creature* getCreature(string name);
+  Container* getContainer(string name);
+  bool inInventory(string name);
+
+  // running the game
   bool checkTriggers(vector<Trigger*> triggers);
+  bool isMet(Condition* cond);
   bool checkAllTriggers();
   void handleCommand(string command);
   void printInventory();

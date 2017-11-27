@@ -15,6 +15,7 @@ class Condition {
   Condition(string obj);
   Condition(xml_node<>* node);
   virtual ~Condition();
+  virtual bool hasType();
   string getObject();
 };
 

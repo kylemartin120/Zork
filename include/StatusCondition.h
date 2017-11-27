@@ -18,6 +18,7 @@ class StatusCondition : public Condition {
   StatusCondition(string obj, string stat);
   StatusCondition(xml_node<>* node);
   ~StatusCondition();
+  bool hasType();
   string getStatus();
 };
 #endif

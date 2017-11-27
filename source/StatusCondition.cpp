@@ -17,6 +17,10 @@ StatusCondition::StatusCondition(xml_node<>* node) : Condition(node) {
 
 StatusCondition::~StatusCondition() {}
 
+bool StatusCondition::hasType() {
+  return false;
+}
+
 string StatusCondition::getStatus() {
   return status;
 }

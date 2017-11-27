@@ -57,3 +57,13 @@ bool Container::putItem(string item) {
 
   return false;
 }
+
+bool Container::contains(string item) {
+  for (int i = 0; i < items.size(); i++) {
+    if (items[i] == item) {
+      return true;
+    }
+  }
+
+  return false;
+}

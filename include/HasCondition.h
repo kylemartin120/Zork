@@ -18,6 +18,7 @@ class HasCondition : public Condition {
   HasCondition(bool h, string obj, string own);
   HasCondition(xml_node<>* node);
   virtual ~HasCondition();
+  bool hasType();
   bool getHas();
   string getOwner();
 };

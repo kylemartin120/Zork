@@ -10,6 +10,10 @@ Condition::Condition(xml_node<>* node) {
 
 Condition::~Condition() {}
 
+bool Condition::hasType() {
+  return false;
+}
+
 string Condition::getObject() {
   return object;
 }
