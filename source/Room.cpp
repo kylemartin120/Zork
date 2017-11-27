@@ -14,12 +14,14 @@ using namespace std;
 
 Room::Room(string n, string s, string t, string d, vector<Border*> b,
 	   vector<string> c, vector<string> i, vector<string> cr,
-	   vector<Trigger*> trigs) : GameObject(n, s, d, trigs) {
+	   vector<string> o, vector<Trigger*> trigs) :
+  GameObject(n, s, d, trigs) {
   type = t;
   borders = b;
   containers = c;
   items = i;
   creatures = cr;
+  objects = o;
 }
 
 Room::Room(xml_node<>* node) : GameObject(node) {
@@ -39,16 +41,19 @@ Room::Room(xml_node<>* node) : GameObject(node) {
   for (xml_node<>* cur_node = node->first_node("container");
        cur_node; cur_node = cur_node->next_sibling("container")) {
     containers.push_back(cur_node->value());
+    objects.push_back(cur_node->value());
   }
 
   for (xml_node<>* cur_node = node->first_node("item");
        cur_node; cur_node = cur_node->next_sibling("item")) {
     items.push_back(cur_node->value());
+    objects.push_back(cur_node->value());
   }
 
   for (xml_node<>* cur_node = node->first_node("creature");
        cur_node; cur_node = cur_node->next_sibling("creature")) {
     creatures.push_back(cur_node->value());
+    objects.push_back(cur_node->value());
   }
 }
 

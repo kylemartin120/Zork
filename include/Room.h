@@ -23,10 +23,11 @@ class Room : public GameObject {
   vector<string> containers;
   vector<string> items;
   vector<string> creatures;
+  vector<string> objects;
 
   Room(string n, string s, string t, string d, vector<Border*> b,
        vector<string> c, vector<string> i, vector<string> cr,
-       vector<Trigger*> trigs);
+       vector<string> o, vector<Trigger*> trigs);
   Room(xml_node<>* node);
   virtual ~Room();
   string checkBorders(string direction);

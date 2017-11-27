@@ -5,6 +5,8 @@
 #include <string>
 #include <stdio.h>
 #include <fstream>
+#include <sstream>
+#include <iterator>
 #include "rapidxml.hpp"
 #include <vector>
 #include <queue>
@@ -44,13 +46,21 @@ class Game {
   bool isMet(Condition* cond);
   bool checkAllTriggers();
   void handleCommand(string command);
+  void handleAction(string action);
   void printInventory();
   void move(string dir);
-  void putItem(Item* i, Container* c); // used for take as well
+  void put(Item* i, Container* c); // used for take as well
   void open(Container* c);
   void exitGame(); // if current room is type "exit", leave game
   void drop(Item* i);
   bool turnOn(Item* i);
+  void read(Item* i);
+  void attack(Item* i, Creature* c);
+  void addObject(GameObject* o, Room* r);
+  void addObject(GameObject* o, Container* c);
+  void delObject(GameObject* o);
+  void update(GameObject* o, string s);
+  void endGame();
   
 };
 #endif

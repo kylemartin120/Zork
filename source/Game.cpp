@@ -95,6 +95,20 @@ bool Game::inInventory(string name) {
   return false;
 }
 
+bool Game::checkAllTriggers() {
+  if (checkTriggers(cur_room->triggers)) {
+    return true;
+  }
+  for (int i = 0; i < cur_room->objects.size(); i++) {
+    GameObject* object = getObject(cur_room->objects[i]);
+    if (checkTriggers(object->triggers)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 bool Game::checkTriggers(vector<Trigger*> triggers) {
   for (int i = 0; i < triggers.size(); i++) {
     vector<Condition*> cur_conds = triggers[i]->conditions;
@@ -144,4 +158,177 @@ bool Game::isMet(Condition* cond) {
   StatusCondition* stat_cond = (StatusCondition*) cond;
   GameObject* object = getObject(stat_cond->object);
   return (stat_cond->status == object->status);
+}
+
+void Game::handleCommand(string command) {
+
+  istringstream buf(command);
+  istream_iterator<string> beg(buf), end;
+  vector<string> parts(beg, end);
+
+  input = command;
+  
+  if (input == "n" || input == "e" || input == "s" || input == "w") {
+    //move(input);
+  }
+
+  else if (input == "i") {
+    //printInventory();
+  }
+
+  else if (input == "open exit") {
+    //exitGame();
+  }
+
+  else if (parts[0] == "take") {
+    for (int i = 0; i < cur_room->items.size(); i++) {
+      if (parts[1] == cur_room->items[i]) {
+	Item* i = getItem(parts[1]);
+	//take(i);
+	return;
+      }
+    }
+
+    for (int i = 0; i < cur_room->containers.size(); i++) {
+      Container* c = getContainer(cur_room->containers[i]);
+      for (int j = 0; j < c->items.size(); j++) {
+	if (parts[1] == c->items[j]) {
+	  Item* i = getItem(parts[1]);
+	  //take(i, c);
+	  return;
+	}
+      }
+    }
+
+    cout << "Couldn't find item." << endl;
+  }
+
+  else if (parts[0] == "open") {
+    for (int i = 0; i < cur_room->containers.size(); i++) {
+      if (cur_room->containers[i] == parts[1]) {
+	Container* c = getContainer(cur_room->containers[i]);
+	//open(c);
+	return;
+      }
+    }
+
+    cout << "Couldn't find container." << endl;
+  }
+
+  else if (parts[0] == "read") {
+    if (inInventory(parts[1])) {
+      Item* i = getItem(parts[1]);
+      //read(i);
+    }
+    else {
+      cout << "Item not in inventory." << endl;
+    }
+  }
+
+  else if (parts[0] == "drop") {
+    if (inInventory(parts[1])) {
+      Item* i = getItem(parts[1]);
+      //drop(i);
+    }
+    else {
+      cout << "Item not in inventory." << endl;
+    }
+  }
+
+  else if (parts[0] == "put" && parts[2] == "in") {
+    if (inInventory(parts[1])) {
+      for (int i = 0; i < cur_room->containers.size(); i++) {
+	if (cur_room->containers[i] == parts[3]) {
+	  Container* c = getContainer(cur_room->containers[i]);
+	  //put(i, c);
+	  return;
+	}
+      }
+      cout << "Container not found." << endl;
+    }
+    else {
+      cout << "Item not in inventory." << endl;
+    }
+  }
+
+  else if (parts[0] == "turn" && parts[1] == "on") {
+    if (inInventory(parts[2])) {
+      Item* i = getItem(parts[2]);
+      //turnOn(i);
+    }
+    else {
+      cout << "Item not in inventory." << endl;
+    }
+  }
+
+  else if (parts[0] == "attack" && parts[2] == "with") {
+    if (inInventory(parts[3])) {
+      for (int i = 0; i < cur_room->creatures.size(); i++) {
+	if (parts[1] == cur_room->creatures[i]) {
+	  Creature* c = getCreature(parts[1]);
+	  Item* i = getItem(parts[3]);
+	  //attack(c, i);
+	  return;
+	}
+      }
+      cout << "Creature not in room." << endl;
+    }
+    else {
+      cout << "Item not in inventory." << endl;
+    }
+  }
+
+  else {
+    cout << "Invalid input." << endl;
+  }
+}
+
+void Game::handleAction(string action) {
+  istringstream buf(action);
+  istream_iterator<string> beg(buf), end;
+  vector<string> parts(beg, end);
+
+  if (parts[0] == "Update" && parts[2] == "to") {
+    GameObject* o = getObject(parts[1]);
+    if (o) {
+      //update(o, parts[3]);
+    }
+  }
+
+  else if (parts[0] == "Delete") {
+    GameObject* o = getObject(parts[1]);
+    if (o) {
+      //delObject(o);
+    }
+  }
+
+  else if (parts[0] == "Add" && parts[2] == "to") {
+    GameObject* o = getObject(parts[1]);
+    if (o) {
+      for (int i = 0; i < rooms.size(); i++) {
+	if ((string) rooms[i]->name == parts[3]) {
+	  Room* r = rooms[i];
+	  //addObject(o, r);
+	  return;
+	}
+      }
+      for (int i = 0; i < rooms.size(); i++) {
+	for (int j = 0; j < rooms[i]->containers.size(); j++) {
+	  if (rooms[i]->containers[j] == parts[3]) {
+	    Container* c = getContainer(parts[3]);
+	    //addObject(o, c);
+	    return;
+	  }
+	}
+      }
+    }
+  }
+
+  else if (action == "Game Over") {
+    //endGame();
+  }
+
+  else {
+    handleCommand(action);
+  }
 }
