@@ -9,7 +9,7 @@ HasCondition::HasCondition(bool h, string obj, string own) :
 }
 
 HasCondition::HasCondition(xml_node<>* node) : Condition(node) {
-  if (node->first_node("has")->value() == "yes") {
+  if ((string) node->first_node("has")->value() == "yes") {
     has = true;
   }
   else {

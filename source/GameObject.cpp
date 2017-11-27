@@ -19,8 +19,8 @@ GameObject::GameObject(xml_node<>* node) {
     if (node->first_node("status") != NULL) {
       status = node->first_node("status")->value();
     }
-    for (xml_node<>* cur_node = node->first_node("room");
-	 cur_node; cur_node = cur_node->next_sibling("room")) {
+    for (xml_node<>* cur_node = node->first_node("trigger");
+	 cur_node; cur_node = cur_node->next_sibling("trigger")) {
       Trigger* this_trig = new Trigger(cur_node);
       triggers.push_back(this_trig);
     }

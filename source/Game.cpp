@@ -87,7 +87,7 @@ Container* Game::getContainer(string name) {
 
 bool Game::inInventory(string name) {
   for (int i = 0; i < inventory.size(); i++) {
-    if (inventory[i] == name) {
+    if ((string) inventory[i] == name) {
       return true;
     }
   }
@@ -109,7 +109,7 @@ bool Game::checkTriggers(vector<Trigger*> triggers) {
     }
     if (act) {
       for (int j = 0; j < cur_comms.size(); j++) {
-	  if (cur_comms[j] != input) {
+	if ((string) cur_comms[j] != input) {
 	    act = false;
 	    j = cur_comms.size();
 	  }
@@ -129,8 +129,10 @@ bool Game::isMet(Condition* cond) {
   if (cond->hasType()) {
     HasCondition* has_cond = (HasCondition*) cond;
     bool hasObject;
-    if (has_cond->owner == "inventory") {
+    if ((string) has_cond->owner == "inventory") {
       hasObject = inInventory(has_cond->object);
+      if (hasObject) {
+      }
     }
     else {
       Container* owner = getContainer(has_cond->owner);

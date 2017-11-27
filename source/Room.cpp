@@ -20,7 +20,6 @@ Room::Room(string n, string s, string t, string d, vector<Border*> b,
   containers = c;
   items = i;
   creatures = cr;
-  triggers = trigs;
 }
 
 Room::Room(xml_node<>* node) : GameObject(node) {
@@ -76,10 +75,6 @@ vector<string> Room::getItems() {
 
 vector<string> Room::getCreatures() {
   return creatures;
-}
-
-vector<Trigger*> Room::getTriggers() {
-  return triggers;
 }
 
 void Room::putItem(string item) {

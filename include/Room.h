@@ -23,7 +23,6 @@ class Room : public GameObject {
   vector<string> containers;
   vector<string> items;
   vector<string> creatures;
-  vector<Trigger*> triggers;
 
   Room(string n, string s, string t, string d, vector<Border*> b,
        vector<string> c, vector<string> i, vector<string> cr,
@@ -34,7 +33,6 @@ class Room : public GameObject {
   vector<string> getContainers();
   vector<string> getItems();
   vector<string> getCreatures();
-  vector<Trigger*> getTriggers();
   void putItem(string item);
 };
 #endif
