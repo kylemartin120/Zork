@@ -9,8 +9,6 @@
 #include <iterator>
 #include "rapidxml.hpp"
 #include <vector>
-#include <algorithm>
-#include <functional>
 
 #include "Item.h"
 #include "Container.h"

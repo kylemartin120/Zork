@@ -194,8 +194,13 @@ void Game::handleCommand(string command) {
   vector<string> parts(beg, end);
 
   input = command;
+
+  if (input == "") {
+    cout << "No input detected." << endl;
+    return;
+  }
   
-  if (input == "n" || input == "e" || input == "s" || input == "w") {
+  else if (input == "n" || input == "e" || input == "s" || input == "w") {
     move(input);
   }
 
@@ -540,6 +545,14 @@ void Game::delObject(GameObject* o) {
   for (int i = 0; i < objects.size(); i++) {
     if ((string) objects[i]->name == (string) o->name) {
       objects.erase(objects.begin() + i);
+    }
+  }
+
+  for (int i = 0; i < rooms.size(); i++) {
+    for (int j = 0; j < rooms[i]->objects.size(); j++) {
+      if (rooms[i]->objects[j] == (string) o->name) {
+	rooms[i]->objects.erase(rooms[i]->objects.begin() + j);
+      }
     }
   }
   
